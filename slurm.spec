@@ -86,14 +86,14 @@
 %endif
 
 Name:    slurm
-Version: 16.05.5
+Version: 16.05.6
 Release: 1fasrc01%{?dist}
 
 Summary: Slurm Workload Manager
 
 License: GPL
 Group: System Environment/Base
-Source: slurm-16.05.5.tar.bz2
+Source: slurm-16.05.6.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 URL: http://slurm.schedmd.com/
 
@@ -434,7 +434,7 @@ Gives the ability for Slurm to use Berkeley Lab Checkpoint/Restart
 #############################################################################
 
 %prep
-%setup -n slurm-16.05.5
+%setup -n slurm-16.05.6
 
 %build
 %configure \
@@ -654,7 +654,7 @@ Cflags: -I\${includedir}
 Libs: -L\${libdir} -lslurm
 Description: Slurm API
 Name: slurm
-Version: 16.05.5
+Version: 16.05.6
 EOF
 
 %if %{slurm_with bluegene}
@@ -736,6 +736,8 @@ test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/mpi_mvapich.so              &&
    echo %{_libdir}/slurm/mpi_mvapich.so              >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/node_features_knl_cray.so   &&
    echo %{_libdir}/slurm/node_features_knl_cray.so   >> $LIST
+test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/node_features_knl_generic.so &&
+   echo %{_libdir}/slurm/node_features_knl_generic.so   >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/power_cray.so               &&
    echo %{_libdir}/slurm/power_cray.so               >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/select_bluegene.so          &&
@@ -1157,6 +1159,10 @@ fi
 
 
 %changelog
+* Mon Oct 31 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.6-1fasrc01
+- Happy Reformation Day!
+- Rebase onto 16.05.6
+
 * Thu Sep 29 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.5-1fasrc01
 - Rebase onto 16.05.5
 
