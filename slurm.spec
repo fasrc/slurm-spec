@@ -86,14 +86,14 @@
 %endif
 
 Name:    slurm
-Version: 16.05.6
+Version: 16.05.7
 Release: 1fasrc01%{?dist}
 
 Summary: Slurm Workload Manager
 
 License: GPL
 Group: System Environment/Base
-Source: slurm-16.05.6.tar.bz2
+Source: slurm-16.05.7.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 URL: http://slurm.schedmd.com/
 
@@ -434,7 +434,7 @@ Gives the ability for Slurm to use Berkeley Lab Checkpoint/Restart
 #############################################################################
 
 %prep
-%setup -n slurm-16.05.6
+%setup -n slurm-16.05.7
 
 %build
 %configure \
@@ -654,7 +654,7 @@ Cflags: -I\${includedir}
 Libs: -L\${libdir} -lslurm
 Description: Slurm API
 Name: slurm
-Version: 16.05.6
+Version: 16.05.7
 EOF
 
 %if %{slurm_with bluegene}
@@ -1159,6 +1159,9 @@ fi
 
 
 %changelog
+* Tue Dec 13 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.7-1fasrc01
+- Rebase onto 16.05.7
+
 * Mon Oct 31 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.6-1fasrc01
 - Happy Reformation Day!
 - Rebase onto 16.05.6
