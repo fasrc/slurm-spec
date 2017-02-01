@@ -86,14 +86,14 @@
 %endif
 
 Name:    slurm
-Version: 16.05.8
+Version: 16.05.9
 Release: 1fasrc01%{?dist}
 
 Summary: Slurm Workload Manager
 
 License: GPL
 Group: System Environment/Base
-Source: slurm-16.05.8.tar.bz2
+Source: slurm-16.05.9.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 URL: http://slurm.schedmd.com/
 
@@ -434,7 +434,7 @@ Gives the ability for Slurm to use Berkeley Lab Checkpoint/Restart
 #############################################################################
 
 %prep
-%setup -n slurm-16.05.8
+%setup -n slurm-16.05.9
 
 %build
 %configure \
@@ -568,7 +568,6 @@ rm -f $RPM_BUILD_ROOT/lib64/security/pam_slurm_adopt.la
 rm -f $RPM_BUILD_ROOT/%{_libdir}/slurm/auth_none.so
 %endif
 %if ! %{slurm_with bluegene}
-rm -f $RPM_BUILD_ROOT/%{_libdir}/slurm/job_submit_cnode.so
 rm -f $RPM_BUILD_ROOT/%{_libdir}/slurm/libsched_if.so
 rm -f $RPM_BUILD_ROOT/%{_libdir}/slurm/libsched_if64.so
 rm -f $RPM_BUILD_ROOT/%{_libdir}/slurm/runjob_plugin.so
@@ -654,7 +653,7 @@ Cflags: -I\${includedir}
 Libs: -L\${libdir} -lslurm
 Description: Slurm API
 Name: slurm
-Version: 16.05.8
+Version: 16.05.9
 EOF
 
 %if %{slurm_with bluegene}
@@ -881,7 +880,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/slurm_epilog
 %{_sbindir}/slurm_prolog
 %{_sbindir}/sfree
-%{_libdir}/slurm/job_submit_cnode.so
 %config %{_sysconfdir}/bluegene.conf.example
 %endif
 #############################################################################
@@ -1158,6 +1156,9 @@ fi
 
 
 %changelog
+* Wed Feb 1 2017 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.9-1fasrc01
+- Rebase onto 16.05.9
+
 * Thu Jan 5 2017 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.8-1fasrc01
 - Rebase onto 16.05.8
 
