@@ -1087,7 +1087,7 @@ fi
 - https://bugs.schedmd.com/show_bug.cgi?id=2885
 - Fixed in 16.05.3
 
-* Wed Jul 8 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.2-1fasrc01
+* Fri Jul 8 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.2-1fasrc01
 - Rebase onto 16.05.2
 
 * Wed Jun 1 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.0-1fasrc01
@@ -1180,7 +1180,7 @@ fi
 * Fri Jan 9 2015 Paul Edmon <pedmon@cfa.harvard.edu> 14.11.3-1fasrc01
 - Rebase onto 14.11.3 release
 
-* Thu Dec 3 2014 Paul Edmon <pedmon@cfa.harvard.edu> 14.11.1-1fasrc01
+* Wed Dec 3 2014 Paul Edmon <pedmon@cfa.harvard.edu> 14.11.1-1fasrc01
 - Rebase onto 14.11.1 release
 - Dropped all old patches as this is a major release change.
 
