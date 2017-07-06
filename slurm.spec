@@ -78,14 +78,14 @@
 %endif
 
 Name:    slurm
-Version: 17.02.5
+Version: 17.02.6
 Release: 1fasrc01%{?dist}
 
 Summary: Slurm Workload Manager
 
 License: GPL
 Group: System Environment/Base
-Source: slurm-17.02.5.tar.bz2
+Source: slurm-17.02.6.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 URL: https://slurm.schedmd.com/
 
@@ -375,7 +375,7 @@ according to the Slurm
 #############################################################################
 
 %prep
-%setup -n slurm-17.02.5
+%setup -n slurm-17.02.6
 
 %build
 %configure \
@@ -589,7 +589,7 @@ Cflags: -I\${includedir}
 Libs: -L\${libdir} -lslurm
 Description: Slurm API
 Name: slurm
-Version: 17.02.5
+Version: 17.02.6
 EOF
 
 %if %{slurm_with bluegene}
@@ -1053,6 +1053,9 @@ fi
 
 
 %changelog
+* Thu Jul 6 2017 Paul Edmon <pedmon@cfa.harvard.edu> 17.02.6-1fasrc01
+- Rebase onto 17.02.6
+
 * Fri Jun 23 2017 Paul Edmon <pedmon@cfa.harvard.edu> 17.02.5-1fasrc01
 - Rebase onto 17.02.5
 
