@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.0
-%global rel	1
+Version:	17.11.1
+%global rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -155,6 +155,10 @@ BuildRequires: numactl-devel
 # Uncomment if needed again.
 #%define _unpackaged_files_terminate_build      0
 
+# Slurm may intentionally include empty manifest files, which will
+# cause errors with rpm 4.13 and on. Turn that check off.
+%define _empty_manifest_terminate_build 0
+
 # First we remove $prefix/local and then just prefix to make
 # sure we get the correct installdir
 %define _perlarch %(perl -e 'use Config; $T=$Config{installsitearch}; $P=$Config{installprefix}; $P1="$P/local"; $T =~ s/$P1//; $T =~ s/$P//; print $T;')
@@ -219,6 +223,15 @@ Obsoletes: slurm-sql
 %description slurmdbd
 Slurm database daemon. Used to accept and process database RPCs and upload
 database changes to slurmctld daemons on each cluster
+
+%package libpmi
+Summary: Slurm\'s implementation of the pmi libraries
+Group: System Environment/Base
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Conflicts: pmix-libpmi
+%description libpmi
+Slurm\'s version of libpmi. For systems using Slurm, this version
+is preferred over the compatibility libraries shipped by the PMIx project.
 
 %package torque
 Summary: Torque/PBS wrappers for transition from Torque/PBS to Slurm
@@ -438,12 +451,10 @@ rm -rf %{buildroot}
 %exclude %{_bindir}/sjobexitmod
 %exclude %{_bindir}/sjstat
 %exclude %{_bindir}/smail
+%exclude %{_libdir}/libpmi*
 %{_libdir}/*.so*
 %{_libdir}/slurm/src/*
 %{_libdir}/slurm/*.so
-%if %{with cray}
-%{_libdir}/slurmpmi/*
-%endif
 %exclude %{_libdir}/slurm/accounting_storage_mysql.so
 %exclude %{_libdir}/slurm/job_submit_pbs.so
 %exclude %{_libdir}/slurm/spank_pbs.so
@@ -514,6 +525,15 @@ rm -rf %{buildroot}
 %{_sbindir}/slurmdbd
 %{_libdir}/slurm/accounting_storage_mysql.so
 %{_unitdir}/slurmdbd.service
+#############################################################################
+
+%files libpmi
+%defattr(-,root,root)
+%if %{with cray}
+%{_libdir}/slurmpmi/*
+%else
+%{_libdir}/libpmi*
+%endif
 #############################################################################
 
 %files torque
@@ -589,8 +609,10 @@ rm -rf %{buildroot}
 
 #############################################################################
 
-
 %changelog
+* Tue Jan 2 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.1-2fasrc01
+- Rebase onto 17.11.1-2
+
 * Fri Dec 1 2017 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.0-1fasrc01
 - Rebase onto 17.11.0
 
