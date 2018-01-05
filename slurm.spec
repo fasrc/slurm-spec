@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.1
-%global rel	2
+Version:	17.11.2
+%global rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -610,6 +610,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Fri Jan 5 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.2-1fasrc01
+- Rebase onto 17.11.2
+
 * Tue Jan 2 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.1-2fasrc01
 - Rebase onto 17.11.1-2
 
