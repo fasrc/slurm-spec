@@ -106,6 +106,7 @@ BuildRequires: pkgconfig
 %endif
 
 BuildRequires: perl(ExtUtils::MakeMaker)
+BuildRequires: libssh2-devel
 
 %if %{with lua}
 %if %{defined suse_version}
