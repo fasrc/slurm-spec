@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.2
-%global rel	1
+Version:	17.11.3
+%global rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -611,6 +611,10 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Wed Feb 7 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.3-2fasrc01
+- Rebase onto 17.11.3-2
+- Added dependency on libssh2-devel in order to enable native X11.
+
 * Fri Jan 5 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.2-1fasrc01
 - Rebase onto 17.11.2
 
