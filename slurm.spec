@@ -299,7 +299,8 @@ according to the Slurm
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-	%{?_with_cflags}
+	%{?_with_cflags} \
+	--disable-x11
 
 make %{?_smp_mflags}
 
@@ -613,7 +614,8 @@ rm -rf %{buildroot}
 %changelog
 * Wed Feb 7 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.3-2fasrc01
 - Rebase onto 17.11.3-2
-- Added dependency on libssh2-devel in order to enable native X11.
+- Added dependency on libssh2-devel in order to enable X11 but disabled
+- X11 due to incompatibility with CentOS 6.
 
 * Fri Jan 5 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.2-1fasrc01
 - Rebase onto 17.11.2
