@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.3
-%global rel	2
+Version:	17.11.4
+%global rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -109,11 +109,7 @@ BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: libssh2-devel
 
 %if %{with lua}
-%if %{defined suse_version}
-BuildRequires: lua51-devel
-%else
-BuildRequires: lua-devel
-%endif
+BuildRequires: pkgconfig(lua) >= 5.1.0
 %endif
 
 %if %{with hwloc}
@@ -612,6 +608,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Mar 1 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.4-1fasrc01
+- Rebase onto 17.11.4
+
 * Wed Feb 7 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.3-2fasrc01
 - Rebase onto 17.11.3-2
 - Added dependency on libssh2-devel in order to enable X11 but disabled
@@ -671,7 +670,7 @@ rm -rf %{buildroot}
 - Dropped 65b4f283ef2a908b6e3e8921acf62dad73528f00.patch as it is fixed
 
 * Mon Jul 11 2016 Paul Edmon <pedmon@cfa.harvard.edu> 16.05.2-1fasrc02
-- 65b4f283ef2a908b6e3e8921acf62dad73528f00.patch for bug 
+- 65b4f283ef2a908b6e3e8921acf62dad73528f00.patch for bug
 - https://bugs.schedmd.com/show_bug.cgi?id=2885
 - Fixed in 16.05.3
 
