@@ -45,7 +45,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with hdf5
 %bcond_with lua
 %bcond_with numa
-%bcond_without x11
+%bcond_with x11
 
 # Build with OpenSSL by default on all platforms (disable using --without openssl)
 %bcond_without openssl
@@ -309,8 +309,8 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-	%{?_without_x11:--disable-x11} \
-	%{?_with_cflags}
+	%{?_with_cflags} \
+    --disable-x11
 
 make %{?_smp_mflags}
 
