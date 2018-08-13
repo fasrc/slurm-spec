@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.7
-%global rel	1
+Version:	17.11.9
+%global rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -31,6 +31,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --with openssl	%_with_openssl 1	require openssl RPM to be installed
 #						ensures auth/openssl and crypto/openssl are built
 # --without pam		%_without_pam 1		don't require pam-devel RPM to be installed
+# --without x11		%_without_x11 1		disable internal X11 support
 
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
@@ -44,6 +45,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with hdf5
 %bcond_with lua
 %bcond_with numa
+%bcond_without x11
 
 # Build with OpenSSL by default on all platforms (disable using --without openssl)
 %bcond_without openssl
@@ -107,6 +109,7 @@ BuildRequires: pkgconfig
 
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: libssh2-devel
+BuildRequires: pmix
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -306,8 +309,8 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-	%{?_with_cflags} \
-    --disable-x11
+	%{?_without_x11:--disable-x11} \
+	%{?_with_cflags}
 
 make %{?_smp_mflags}
 
@@ -640,6 +643,10 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Aug 13 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.9-1fasrc01
+- Rebase onto 17.11.9-2
+- Adding PMIx support
+
 * Thu May 31 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.7-1fasrc01
 - Rebase onto 17.11.7
 
