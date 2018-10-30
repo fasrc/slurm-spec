@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.9
-%global rel	2
+Version:	17.11.12
+%global rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -309,6 +309,7 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
+    %{?_without_x11:--disable-x11} \
 	%{?_with_cflags} \
     --disable-x11
 
@@ -624,26 +625,31 @@ rm -rf %{buildroot}
 %preun slurmctld
 %systemd_preun slurmctld.service
 %postun slurmctld
-%systemd_postun_with_restart slurmctld.service
+%systemd_postun slurmctld.service
 
 %post slurmd
 %systemd_post slurmd.service
 %preun slurmd
 %systemd_preun slurmd.service
 %postun slurmd
-%systemd_postun_with_restart slurmd.service
+%systemd_postun slurmd.service
 
 %post slurmdbd
 %systemd_post slurmdbd.service
 %preun slurmdbd
 %systemd_preun slurmdbd.service
 %postun slurmdbd
-%systemd_postun_with_restart slurmdbd.service
+%systemd_postun slurmdbd.service
 
 #############################################################################
 
 %changelog
-* Mon Aug 13 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.9-1fasrc01
+* Tue Oct 30 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.12-1fasrc01
+- Rebase onto 17.11.9-2
+- We are going to neuter the restart here for the services as we want
+- to control that by hand or by puppet.
+
+* Mon Aug 13 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.9-2fasrc01
 - Rebase onto 17.11.9-2
 - Adding PMIx support
 
