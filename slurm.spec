@@ -647,7 +647,8 @@ rm -rf %{buildroot}
 * Tue Oct 30 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.12-1fasrc01
 - Rebase onto 17.11.9-2
 - We are going to neuter the restart here for the services as we want
-- to control that by hand or by puppet.
+- to control that by hand or by puppet.  This is due to the fact that
+- it can create problems when doing upgrades.
 
 * Mon Aug 13 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.9-2fasrc01
 - Rebase onto 17.11.9-2
