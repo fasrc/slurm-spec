@@ -648,7 +648,7 @@ rm -rf %{buildroot}
 - Rebase onto 17.11.9-2
 - We are going to neuter the restart here for the services as we want
 - to control that by hand or by puppet.  This is due to the fact that
-- it can create problems when doing upgrades.
+- it can create problems when doing upgrades.  This is under postun.
 
 * Mon Aug 13 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.9-2fasrc01
 - Rebase onto 17.11.9-2
