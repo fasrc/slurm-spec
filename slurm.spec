@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	17.11.12
-%global rel	1
+Version:	18.08.5
+%define rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -309,13 +309,17 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-    %{?_without_x11:--disable-x11} \
-	%{?_with_cflags} \
+	%{?_without_x11:--disable-x11} \
+	%{?_with_cflags}
     --disable-x11
 
 make %{?_smp_mflags}
 
 %install
+
+# Ignore redundant standard rpaths and insecure relative rpaths,
+# for RHEL based distros which use "check-rpaths" tool.
+export QA_RPATHS=0x5
 
 # Strip out some dependencies
 
@@ -359,12 +363,10 @@ install -D -m644 etc/slurmdbd.service  %{buildroot}/%{_unitdir}/slurmdbd.service
 %endif
 
 install -D -m644 etc/cgroup.conf.example %{buildroot}/%{_sysconfdir}/cgroup.conf.example
-install -D -m644 etc/cgroup_allowed_devices_file.conf.example %{buildroot}/%{_sysconfdir}/cgroup_allowed_devices_file.conf.example
 install -D -m644 etc/layouts.d.power.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/power.conf.example
 install -D -m644 etc/layouts.d.power_cpufreq.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/power_cpufreq.conf.example
 install -D -m644 etc/layouts.d.unit.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/unit.conf.example
 install -D -m644 etc/slurm.conf.example %{buildroot}/%{_sysconfdir}/slurm.conf.example
-install -D -m755 etc/slurm.epilog.clean %{buildroot}/%{_sysconfdir}/slurm.epilog.clean
 install -D -m644 etc/slurmdbd.conf.example %{buildroot}/%{_sysconfdir}/slurmdbd.conf.example
 install -D -m755 contribs/sjstat %{buildroot}/%{_bindir}/sjstat
 
@@ -501,12 +503,10 @@ rm -rf %{buildroot}
 %config %{_sysconfdir}/slurm.conf.template
 %endif
 %config %{_sysconfdir}/cgroup.conf.example
-%config %{_sysconfdir}/cgroup_allowed_devices_file.conf.example
 %config %{_sysconfdir}/layouts.d/power.conf.example
 %config %{_sysconfdir}/layouts.d/power_cpufreq.conf.example
 %config %{_sysconfdir}/layouts.d/unit.conf.example
 %config %{_sysconfdir}/slurm.conf.example
-%config %{_sysconfdir}/slurm.epilog.clean
 %config %{_sysconfdir}/slurmdbd.conf.example
 #############################################################################
 
@@ -644,6 +644,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Feb 21 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.5-2fasrc01
+- Rebase onto 18.08.5-2
+
 * Tue Oct 30 2018 Paul Edmon <pedmon@cfa.harvard.edu> 17.11.12-1fasrc01
 - Rebase onto 17.11.9-2
 - We are going to neuter the restart here for the services as we want
