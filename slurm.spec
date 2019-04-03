@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	18.08.5
+Version:	18.08.6
 %define rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -644,6 +644,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Wed Apr 3 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.6-2fasrc01
+- Rebase onto 18.08.6-2
+
 * Thu Feb 21 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.5-2fasrc01
 - Rebase onto 18.08.5-2
 
