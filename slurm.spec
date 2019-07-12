@@ -105,6 +105,14 @@ BuildRequires: pkgconfig
 %endif
 
 BuildRequires: perl(ExtUtils::MakeMaker)
+BuildRequires: libcurl-devel
+BuildRequires: cuda-nvml-dev-10-1
+BuildRequires: numactl-devel
+BuildRequires: json-c-devel
+BuildRequires: infiniband-diags-devel
+BuildRequires: rdma-core-devel
+BuildRequires: lz4-devel
+BuildRequires: man2html
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -307,6 +315,9 @@ notifies slurm about failed nodes.
 %setup -n %{slurm_source_dir}
 
 %build
+
+export CFLAGS="$CFLAGS -L/usr/local/cuda/targets/x86_64-linux/lib/stubs/"
+
 %configure \
 	%{?_without_debug:--disable-debug} \
 	%{?_with_pam_dir} \
@@ -320,7 +331,7 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-	%{?_without_x11:--disable-x11} \
+        %{?_without_x11:--disable-x11} \
 	%{?_with_ucx} \
 	%{?_with_cflags}
 
