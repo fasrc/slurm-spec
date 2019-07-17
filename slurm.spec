@@ -664,6 +664,7 @@ rm -rf %{buildroot}
 * Thu Jul 11 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.1-2fasrc01
 - Rebase onto 19.05.1-2
 - We will start using the builtin X11.
+- Forked the builds for GPU and nonGPU.
 
 * Mon Apr 29 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.7-1fasrc01
 - Rebase onto 18.08.7
