@@ -106,7 +106,6 @@ BuildRequires: pkgconfig
 
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: libcurl-devel
-BuildRequires: cuda-nvml-dev-10-1
 BuildRequires: numactl-devel
 BuildRequires: json-c-devel
 BuildRequires: infiniband-diags-devel
@@ -315,8 +314,6 @@ notifies slurm about failed nodes.
 %setup -n %{slurm_source_dir}
 
 %build
-
-export CFLAGS="$CFLAGS -L/usr/local/cuda/targets/x86_64-linux/lib/stubs/"
 
 %configure \
 	%{?_without_debug:--disable-debug} \
@@ -664,6 +661,7 @@ rm -rf %{buildroot}
 * Thu Jul 11 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.1-2fasrc01
 - Rebase onto 19.05.1-2
 - We will start using the builtin X11.
+- Forked specs for GPU and nonGPU hosts.
 
 * Mon Apr 29 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.7-1fasrc01
 - Rebase onto 18.08.7
