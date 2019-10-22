@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	19.05.1
+Version:	19.05.3
 %define rel	2
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -658,6 +658,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Tue Oct 22 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.3-2fasrc01
+- Rebase onto 19.05.3-2
+
 * Thu Jul 11 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.1-2fasrc01
 - Rebase onto 19.05.1-2
 - We will start using the builtin X11.
