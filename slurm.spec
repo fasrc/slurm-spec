@@ -316,7 +316,7 @@ notifies slurm about failed nodes.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda/targets/x86_64-linux/lib/stubs/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-10.1/targets/x86_64-linux/include/"
 
 %configure \
 	%{?_without_debug:--disable-debug} \
