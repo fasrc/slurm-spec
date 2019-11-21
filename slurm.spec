@@ -1,6 +1,6 @@
 Name:		slurm
-Version:	19.05.3
-%define rel	2
+Version:	19.05.4
+%define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
@@ -132,7 +132,7 @@ BuildRequires: numactl-devel
 
 %if %{with pmix}
 BuildRequires: pmix
-%global pmix %(rpm -q pmix --qf "%{VERSION}")
+%global pmix_version %(rpm -q pmix --qf "%{VERSION}")
 %endif
 
 %if %{with ucx}
@@ -331,7 +331,7 @@ export CFLAGS="$CFLAGS -L/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs/ -I
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-        %{?_without_x11:--disable-x11} \
+    %{?_without_x11:--disable-x11} \
 	%{?_with_ucx} \
 	%{?_with_cflags}
 
@@ -661,6 +661,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Nov 21 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.4-1fasrc01
+- Rebase onto 19.05.4
+
 * Tue Oct 22 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.3-2fasrc01
 - Rebase onto 19.05.3-2
 
