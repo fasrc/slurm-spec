@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	19.05.4
+Version:	19.05.5
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -390,7 +390,7 @@ install -D -m644 etc/layouts.d.power.conf.example %{buildroot}/%{_sysconfdir}/la
 install -D -m644 etc/layouts.d.power_cpufreq.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/power_cpufreq.conf.example
 install -D -m644 etc/layouts.d.unit.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/unit.conf.example
 install -D -m644 etc/slurm.conf.example %{buildroot}/%{_sysconfdir}/slurm.conf.example
-install -D -m644 etc/slurmdbd.conf.example %{buildroot}/%{_sysconfdir}/slurmdbd.conf.example
+install -D -m600 etc/slurmdbd.conf.example %{buildroot}/%{_sysconfdir}/slurmdbd.conf.example
 install -D -m755 contribs/sjstat %{buildroot}/%{_bindir}/sjstat
 
 # Delete unpackaged files:
@@ -658,6 +658,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Wed Jan 8 2020 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.5-1fasrc01
+- Rebase onto 19.05.5
+
 * Thu Nov 21 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.4-1fasrc01
 - Rebase onto 19.05.4
 
