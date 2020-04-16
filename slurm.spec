@@ -124,6 +124,7 @@ BuildRequires: libyaml-devel
 BuildRequires: hdf5-devel
 BuildRequires: freeipmi-devel
 BuildRequires: rrdtool-devel
+BuildRequires: hwloc-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
