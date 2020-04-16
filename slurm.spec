@@ -119,6 +119,11 @@ BuildRequires: infiniband-diags-devel
 BuildRequires: rdma-core-devel
 BuildRequires: lz4-devel
 BuildRequires: man2html
+BuildRequires: http-parser-devel
+BuildRequires: libyaml-devel
+BuildRequires: hdf5-devel
+BuildRequires: freeipmi-devel
+BuildRequires: rrdtool-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -346,8 +351,8 @@ notifies slurm about failed nodes.
 	%{?_with_shared_libslurm} \
 	%{!?_with_slurmrestd:--disable-slurmrestd} \
 	%{?_without_x11:--disable-x11} \
-	%{?_with_ucx} \
-	%{?_with_cflags}
+	%{?_with_cflags} \
+        --with-ucx
 
 make %{?_smp_mflags}
 
