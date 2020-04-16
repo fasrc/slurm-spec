@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	19.05.5
+Version:	20.02.1
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -22,6 +22,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --prefix		%_prefix path		install path for commands, libraries, etc.
 # --with cray		%_with_cray 1		build for a Native-Slurm Cray system
 # --with cray_network	%_with_cray_network 1	build for a non-Cray system with a Cray network
+# --with slurmrestd	%_with_slurmrestd 1	build slurmrestd
 # --with slurmsmwd      %_with_slurmsmwd 1      build slurmsmwd
 # --without debug	%_without_debug 1	don't compile with debugging symbols
 # --with hdf5		%_with_hdf5 path	require hdf5 support
@@ -37,6 +38,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
 %bcond_with cray_network
+%bcond_with slurmrestd
 %bcond_with slurmsmwd
 %bcond_with multiple_slurmd
 %bcond_with ucx
@@ -48,21 +50,26 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with hdf5
 %bcond_with lua
 %bcond_with numa
-%bcond_with x11
 %bcond_with pmix
 
 # Use debug by default on all systems
 %bcond_without debug
 
-# Build with PAM by default on linux
+# Options enabled by default
 %bcond_without pam
+%bcond_without x11
+
+# Disable hardened builds. -z,now or -z,relro breaks the plugin stack
+%undefine _hardened_build
+%global _hardened_cflags "-Wl,-z,lazy"
+%global _hardened_ldflags "-Wl,-z,lazy"
 
 Requires: munge
 
 %{?systemd_requires}
 BuildRequires: systemd
 BuildRequires: munge-devel munge-libs
-BuildRequires: python
+BuildRequires: python36
 BuildRequires: readline-devel
 Obsoletes: slurm-lua slurm-munge slurm-plugins
 
@@ -106,13 +113,19 @@ BuildRequires: pkgconfig
 
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: libcurl-devel
-BuildRequires: cuda-nvml-dev-10-1
 BuildRequires: numactl-devel
 BuildRequires: json-c-devel
 BuildRequires: infiniband-diags-devel
 BuildRequires: rdma-core-devel
 BuildRequires: lz4-devel
 BuildRequires: man2html
+BuildRequires: http-parser-devel
+BuildRequires: libyaml-devel
+BuildRequires: hdf5-devel
+BuildRequires: freeipmi-devel
+BuildRequires: rrdtool-devel
+BuildRequires: hwloc-devel
+BuildRequires: cuda-nvml-dev-10-1
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -297,6 +310,16 @@ running on the node, or any user who has allocated resources on the node
 according to the Slurm
 %endif
 
+%if %{with slurmrestd}
+%package slurmrestd
+Summary: Slurm REST API translator
+Group: System Environment/Base
+Requires: %{name}%{?_isa} = %{version}-%{release}
+BuildRequires: json-c-devel, http-parser-devel
+%description slurmrestd
+Provides a REST interface to Slurm.
+%endif
+
 %if %{with slurmsmwd}
 %package slurmsmwd
 Summary: support daemons and software for the Cray SMW
@@ -331,9 +354,10 @@ export CFLAGS="$CFLAGS -L/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs/ -I
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
-    %{?_without_x11:--disable-x11} \
-	%{?_with_ucx} \
-	%{?_with_cflags}
+	%{!?_with_slurmrestd:--disable-slurmrestd} \
+	%{?_without_x11:--disable-x11} \
+	%{?_with_cflags} \
+        --with-ucx
 
 make %{?_smp_mflags}
 
@@ -620,6 +644,12 @@ rm -rf %{buildroot}
 %endif
 #############################################################################
 
+%if %{with slurmrestd}
+%files slurmrestd
+%{_sbindir}/slurmrestd
+%endif
+#############################################################################
+
 %if %{with slurmsmwd}
 %files slurmsmwd
 %{_sbindir}/slurmsmwd
@@ -661,6 +691,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Apr 16 2020 Paul Edmon <pedmon@cfa.harvard.edu> 20.20.1-1fasrc01
+- Rebase onto 20.20.1
+
 * Wed Jan 8 2020 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.5-1fasrc01
 - Rebase onto 19.05.5
 
@@ -673,7 +706,7 @@ rm -rf %{buildroot}
 * Thu Jul 11 2019 Paul Edmon <pedmon@cfa.harvard.edu> 19.05.1-2fasrc01
 - Rebase onto 19.05.1-2
 - We will start using the builtin X11.
-- Forked the builds for GPU and nonGPU.
+- Forked specs for GPU and nonGPU hosts.
 
 * Mon Apr 29 2019 Paul Edmon <pedmon@cfa.harvard.edu> 18.08.7-1fasrc01
 - Rebase onto 18.08.7
