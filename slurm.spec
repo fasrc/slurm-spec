@@ -69,7 +69,7 @@ Requires: munge
 %{?systemd_requires}
 BuildRequires: systemd
 BuildRequires: munge-devel munge-libs
-BuildRequires: python3
+BuildRequires: python36
 BuildRequires: readline-devel
 Obsoletes: slurm-lua slurm-munge slurm-plugins
 
