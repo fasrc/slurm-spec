@@ -352,8 +352,7 @@ notifies slurm about failed nodes.
 	%{?_with_shared_libslurm} \
 	%{!?_with_slurmrestd:--disable-slurmrestd} \
 	%{?_without_x11:--disable-x11} \
-	%{?_with_cflags} \
-        --with-ucx
+	%{?_with_cflags}
 
 make %{?_smp_mflags}
 
