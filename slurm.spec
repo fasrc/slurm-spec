@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	20.02.4
+Version:	20.02.5
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -701,6 +701,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Fri Sep 11 2020 Paul Edmon <pedmon@cfa.harvard.edu> 20.02.5-1fasrc01
+- Rebase onto 20.02.5
+
 * Tue Sep 8 2020 Paul Edmon <pedmon@cfa.harvard.edu> 20.02.4-1fasrc01
 - Rebase onto 20.02.4
 
