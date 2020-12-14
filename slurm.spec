@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	20.02.6
+Version:	20.11.1
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -71,7 +71,7 @@ Requires: munge
 %{?systemd_requires}
 BuildRequires: systemd
 BuildRequires: munge-devel munge-libs
-BuildRequires: python36
+BuildRequires: python3
 BuildRequires: readline-devel
 Obsoletes: slurm-lua slurm-munge slurm-plugins
 
@@ -127,7 +127,7 @@ BuildRequires: hdf5-devel
 BuildRequires: freeipmi-devel
 BuildRequires: rrdtool-devel
 BuildRequires: hwloc-devel
-BuildRequires: cuda-nvml-dev-10-1
+BuildRequires: cuda-nvml-devel-11-1
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -145,12 +145,12 @@ BuildRequires: numactl-devel
 %endif
 %endif
 
-%if %{with pmix}
+%if %{with pmix} && "%{_with_pmix}" == "--with-pmix"
 BuildRequires: pmix
 %global pmix_version %(rpm -q pmix --qf "%{VERSION}")
 %endif
 
-%if %{with ucx}
+%if %{with ucx} && "%{_with_ucx}" == "--with-ucx"
 BuildRequires: ucx-devel
 %global ucx_version %(rpm -q ucx-devel --qf "%{VERSION}")
 %endif
@@ -240,10 +240,10 @@ to launch jobs.
 Summary: Slurm compute node daemon
 Group: System Environment/Base
 Requires: %{name}%{?_isa} = %{version}-%{release}
-%if %{with pmix}
+%if %{with pmix} && "%{_with_pmix}" == "--with-pmix"
 Requires: pmix = %{pmix_version}
 %endif
-%if %{with ucx}
+%if %{with ucx} && "%{_with_ucx}" == "--with-ucx"
 Requires: ucx = %{ucx_version}
 %endif
 %description slurmd
@@ -346,7 +346,7 @@ notifies slurm about failed nodes.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda-10.1/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-10.1/targets/x86_64-linux/include/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-11.1/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-11.1/targets/x86_64-linux/include/"
 
 %configure \
 	%{?_without_debug:--disable-debug} \
@@ -377,7 +377,7 @@ export QA_RPATHS=0x5
 # Strip out some dependencies
 
 cat > find-requires.sh <<'EOF'
-exec %{__find_requires} "$@" | egrep -v '^libpmix.so|libevent'
+exec %{__find_requires} "$@" | egrep -v '^libpmix.so|libevent|libnvidia-ml'
 EOF
 chmod +x find-requires.sh
 %global _use_internal_dependency_generator 0
@@ -390,6 +390,10 @@ make install-contrib DESTDIR=%{buildroot}
 install -D -m644 etc/slurmctld.service %{buildroot}/%{_unitdir}/slurmctld.service
 install -D -m644 etc/slurmd.service    %{buildroot}/%{_unitdir}/slurmd.service
 install -D -m644 etc/slurmdbd.service  %{buildroot}/%{_unitdir}/slurmdbd.service
+
+%if %{with slurmrestd}
+install -D -m644 etc/slurmrestd.service  %{buildroot}/%{_unitdir}/slurmrestd.service
+%endif
 
 # Do not package Slurm's version of libpmi on Cray systems in the usual location.
 # Cray's version of libpmi should be used. Move it elsewhere if the site still
@@ -423,9 +427,6 @@ install -D -m644 etc/slurmdbd.service  %{buildroot}/%{_unitdir}/slurmdbd.service
 %endif
 
 install -D -m644 etc/cgroup.conf.example %{buildroot}/%{_sysconfdir}/cgroup.conf.example
-install -D -m644 etc/layouts.d.power.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/power.conf.example
-install -D -m644 etc/layouts.d.power_cpufreq.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/power_cpufreq.conf.example
-install -D -m644 etc/layouts.d.unit.conf.example %{buildroot}/%{_sysconfdir}/layouts.d/unit.conf.example
 install -D -m644 etc/slurm.conf.example %{buildroot}/%{_sysconfdir}/slurm.conf.example
 install -D -m600 etc/slurmdbd.conf.example %{buildroot}/%{_sysconfdir}/slurmdbd.conf.example
 install -D -m755 contribs/sjstat %{buildroot}/%{_bindir}/sjstat
@@ -554,9 +555,6 @@ rm -rf %{buildroot}
 %config %{_sysconfdir}/slurm.conf.template
 %endif
 %config %{_sysconfdir}/cgroup.conf.example
-%config %{_sysconfdir}/layouts.d/power.conf.example
-%config %{_sysconfdir}/layouts.d/power_cpufreq.conf.example
-%config %{_sysconfdir}/layouts.d/unit.conf.example
 %config %{_sysconfdir}/slurm.conf.example
 %config %{_sysconfdir}/slurmdbd.conf.example
 #############################################################################
@@ -657,6 +655,7 @@ rm -rf %{buildroot}
 %if %{with slurmrestd}
 %files slurmrestd
 %{_sbindir}/slurmrestd
+%{_unitdir}/slurmrestd.service
 %endif
 #############################################################################
 
@@ -701,6 +700,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Dec 14 2020 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.1-1fasrc01
+- Rebase onto 20.11.1
+
 * Fri Nov 13 2020 Justin Riley <justin_riley@harvard.edu> 20.02.6-1fasrc01
 - Rebase onto 20.02.6
 
@@ -1003,4 +1005,3 @@ rm -rf %{buildroot}
 
 * Wed Jun 26 2013 Morris Jette <jette@schedmd.com> 14.03.0-0pre1
 Various cosmetic fixes for rpmlint errors
-
