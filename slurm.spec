@@ -700,7 +700,7 @@ rm -rf %{buildroot}
 - Pursuiant to bug 10383 we are going to rebase to the bde072c607 commit
 - of the 20.11 release.  We will call this 20.11.2-1fasrc02.
 
-* Mon Jan 3 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.2-1fasrc01
+* Mon Jan 4 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.2-1fasrc01
 - Rebase onto 20.11.2
 
 * Mon Dec 14 2020 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.1-1fasrc01
