@@ -1,7 +1,7 @@
 Name:		slurm
-Version:	20.11.2
+Version:	20.11.3
 %define rel	1
-Release:	%{rel}fasrc02%{?dist}
+Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -700,6 +700,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Jan 25 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.3-1fasrc01
+- Rebase onto 20.11.3
+
 * Fri Jan 8 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.2-1fasrc02
 - Pursuiant to bug 10383 we are going to rebase to the bde072c607 commit
 - of the 20.11 release.  We will call this 20.11.2-1fasrc02.
