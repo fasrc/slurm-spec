@@ -16,6 +16,7 @@ URL:		https://slurm.schedmd.com/
 %endif
 
 Source:		%{slurm_source_dir}.tar.bz2
+Patch0:         bug10824_2011_3_debug_v1.patch
 
 # build options		.rpmmacros options	change to default action
 # ====================  ====================	========================
@@ -342,6 +343,7 @@ notifies slurm about failed nodes.
 %prep
 # when the rel number is one, the tarball filename does not include it
 %setup -n %{slurm_source_dir}
+%patch0 -p1
 
 %build
 %configure \
@@ -696,6 +698,10 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Fri Feb 12 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.3-1fasrc02
+- Applying bug10824_2011_3_debug_v1.patch from:
+- https://bugs.schedmd.com/show_bug.cgi?id=10824
+
 * Mon Jan 25 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.3-1fasrc01
 - Rebase onto 20.11.3
 
