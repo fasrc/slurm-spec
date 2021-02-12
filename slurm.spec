@@ -1,7 +1,7 @@
 Name:		slurm
 Version:	20.11.3
 %define rel	1
-Release:	%{rel}fasrc01%{?dist}
+Release:	%{rel}fasrc02%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
