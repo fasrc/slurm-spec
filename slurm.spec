@@ -1,7 +1,7 @@
 Name:		slurm
-Version:	20.11.3
+Version:	20.11.4
 %define rel	1
-Release:	%{rel}fasrc02%{?dist}
+Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -16,7 +16,6 @@ URL:		https://slurm.schedmd.com/
 %endif
 
 Source:		%{slurm_source_dir}.tar.bz2
-Patch0:         bug10824_2011_3_debug_v1.patch
 
 # build options		.rpmmacros options	change to default action
 # ====================  ====================	========================
@@ -343,7 +342,6 @@ notifies slurm about failed nodes.
 %prep
 # when the rel number is one, the tarball filename does not include it
 %setup -n %{slurm_source_dir}
-%patch0 -p1
 
 %build
 %configure \
@@ -427,6 +425,7 @@ install -D -m644 etc/slurmrestd.service  %{buildroot}/%{_unitdir}/slurmrestd.ser
 install -D -m644 etc/cgroup.conf.example %{buildroot}/%{_sysconfdir}/cgroup.conf.example
 install -D -m644 etc/slurm.conf.example %{buildroot}/%{_sysconfdir}/slurm.conf.example
 install -D -m600 etc/slurmdbd.conf.example %{buildroot}/%{_sysconfdir}/slurmdbd.conf.example
+install -D -m644 etc/cli_filter.lua.example %{buildroot}/%{_sysconfdir}/cli_filter.lua.example
 install -D -m755 contribs/sjstat %{buildroot}/%{_bindir}/sjstat
 
 # Delete unpackaged files:
@@ -555,6 +554,7 @@ rm -rf %{buildroot}
 %config %{_sysconfdir}/cgroup.conf.example
 %config %{_sysconfdir}/slurm.conf.example
 %config %{_sysconfdir}/slurmdbd.conf.example
+%config %{_sysconfdir}/cli_filter.lua.example
 #############################################################################
 
 %files devel
@@ -698,6 +698,10 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Tue Feb 23 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.4-fasrc01
+- Rebase onto 20.11.4
+- Dropping patch for bug 10824.
+
 * Fri Feb 12 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.3-1fasrc02
 - Applying bug10824_2011_3_debug_v1.patch from:
 - https://bugs.schedmd.com/show_bug.cgi?id=10824
@@ -1017,3 +1021,4 @@ rm -rf %{buildroot}
 
 * Wed Jun 26 2013 Morris Jette <jette@schedmd.com> 14.03.0-0pre1
 Various cosmetic fixes for rpmlint errors
+
