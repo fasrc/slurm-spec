@@ -127,6 +127,10 @@ BuildRequires: hdf5-devel
 BuildRequires: freeipmi-devel
 BuildRequires: rrdtool-devel
 BuildRequires: hwloc-devel
+BuildRequires: lua-devel
+BuildRequires: mysql-devel
+BuildRequires: gtk3-devel
+BuildRequires: glib2-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
