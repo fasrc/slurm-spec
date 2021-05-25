@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	20.11.5
+Version:	20.11.7
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -128,6 +128,10 @@ BuildRequires: freeipmi-devel
 BuildRequires: rrdtool-devel
 BuildRequires: hwloc-devel
 BuildRequires: cuda-nvml-devel-11-1
+BuildRequires: lua-devel
+BuildRequires: mysql-devel
+BuildRequires: gtk2-devel
+BuildRequires: glib2-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -706,6 +710,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Tue Mar 25 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.7-1fasrc01
+- Rebase onto 20.11.7
+
 * Fri Mar 19 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.5-1fasrc01
 - Rebase onto 20.11.5
 
