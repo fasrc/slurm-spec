@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	20.11.7
+Version:	21.08.2
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -35,6 +35,8 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --without x11		%_without_x11 1		disable internal X11 support
 # --with ucx		%_with_ucx path		require ucx support
 # --with pmix		%_with_pmix path	require pmix support
+# --with nvml		%_with_nvml path	require nvml support
+#
 
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
@@ -53,6 +55,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with lua
 %bcond_with numa
 %bcond_with pmix
+%bcond_with nvml
 
 # Use debug by default on all systems
 %bcond_without debug
@@ -150,12 +153,12 @@ BuildRequires: numactl-devel
 
 %if %{with pmix} && "%{_with_pmix}" == "--with-pmix"
 BuildRequires: pmix
-%global pmix_version %(rpm -q pmix --qf "%{VERSION}")
+%global pmix_version %(rpm -q pmix --qf "%{RPMTAG_VERSION}")
 %endif
 
 %if %{with ucx} && "%{_with_ucx}" == "--with-ucx"
 BuildRequires: ucx-devel
-%global ucx_version %(rpm -q ucx-devel --qf "%{VERSION}")
+%global ucx_version %(rpm -q ucx-devel --qf "%{RPMTAG_VERSION}")
 %endif
 
 #  Allow override of sysconfdir via _slurm_sysconfdir.
@@ -364,6 +367,7 @@ notifies slurm about failed nodes.
 	%{!?_with_slurmrestd:--disable-slurmrestd} \
 	%{?_without_x11:--disable-x11} \
 	%{?_with_ucx} \
+	%{?_with_nvml} \
 	%{?_with_cflags}
 
 make %{?_smp_mflags}
@@ -441,6 +445,7 @@ rm -f %{buildroot}/%{_libdir}/slurm/job_submit_defaults.so
 rm -f %{buildroot}/%{_libdir}/slurm/job_submit_logging.so
 rm -f %{buildroot}/%{_libdir}/slurm/job_submit_partition.so
 rm -f %{buildroot}/%{_libdir}/slurm/auth_none.so
+rm -f %{buildroot}/%{_libdir}/slurm/cred_none.so
 rm -f %{buildroot}/%{_sbindir}/sfree
 rm -f %{buildroot}/%{_sbindir}/slurm_epilog
 rm -f %{buildroot}/%{_sbindir}/slurm_prolog
@@ -580,7 +585,6 @@ rm -rf %{buildroot}
 %{_perldir}/Slurm/Bitstr.pm
 %{_perldir}/Slurm/Constant.pm
 %{_perldir}/Slurm/Hostlist.pm
-%{_perldir}/Slurm/Stepctx.pm
 %{_perldir}/auto/Slurm/Slurm.so
 %{_perldir}/Slurmdb.pm
 %{_perldir}/auto/Slurmdb/Slurmdb.so
@@ -706,6 +710,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Oct 21 2021 Paul Edmon <pedmon@cfa.harvard.edu> 21.08.2-1fasrc01
+- Rebase onto 21.08.2
+
 * Tue May 25 2021 Paul Edmon <pedmon@cfa.harvard.edu> 20.11.7-1fasrc01
 - Rebase onto 20.11.7
 
