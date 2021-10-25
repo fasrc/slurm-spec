@@ -1,7 +1,7 @@
 Name:		slurm
 Version:	21.08.2
 %define rel	1
-Release:	%{rel}fasrc01%{?dist}
+Release:	%{rel}fasrc02%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -16,6 +16,7 @@ URL:		https://slurm.schedmd.com/
 %endif
 
 Source:		%{slurm_source_dir}.tar.bz2
+Patch0:         bug10625_2108_v1.patch
 
 # build options		.rpmmacros options	change to default action
 # ====================  ====================	========================
@@ -349,6 +350,7 @@ notifies slurm about failed nodes.
 %prep
 # when the rel number is one, the tarball filename does not include it
 %setup -n %{slurm_source_dir}
+%patch0 -p1
 
 %build
 %configure \
@@ -710,6 +712,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Oct 25 2021 Paul Edmon <pedmon@cfa.harvard.edu> 21.08.2-1fasrc02
+- Adding patch for bug 10625
+
 * Thu Oct 21 2021 Paul Edmon <pedmon@cfa.harvard.edu> 21.08.2-1fasrc01
 - Rebase onto 21.08.2
 
