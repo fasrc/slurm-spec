@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	21.08.4
+Version:	21.08.5
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -710,6 +710,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Jan 3 2022 Paul Edmon <pedmon@cfa.harvard.edu> 21.08.5-1fasrc01
+- Rebase onto 21.08.5
+
 * Thu Dec 16 2021 Paul Edmon <pedmon@cfa.harvard.edu> 21.08.4-1fasrc01
 - Rebase onto 21.08.4
 - Dropping patch for 10625 as its fixed in 21.08.5 and not an essential
