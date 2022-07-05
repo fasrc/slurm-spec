@@ -356,9 +356,6 @@ notifies slurm about failed nodes.
 %setup -n %{slurm_source_dir}
 
 %build
-
-export CFLAGS="$CFLAGS -L/usr/local/cuda-11.4/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-11.4/targets/x86_64-linux/include/"
-
 %configure \
 	%{?_without_debug:--disable-debug} \
 	%{?_with_pam_dir} \
