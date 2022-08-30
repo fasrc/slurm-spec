@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	22.05.2
+Version:	22.05.3
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -38,6 +38,8 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --with nvml		%_with_nvml path	require nvml support
 #
 
+%define _with_slurmrestd 1
+
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
 %bcond_with cray_network
@@ -68,6 +70,9 @@ Source:		%{slurm_source_dir}.tar.bz2
 %undefine _hardened_build
 %global _hardened_cflags "-Wl,-z,lazy"
 %global _hardened_ldflags "-Wl,-z,lazy"
+
+# Disable Link Time Optimization (LTO)
+%define _lto_cflags %{nil}
 
 Requires: munge
 
@@ -137,7 +142,7 @@ BuildRequires: mysql-devel
 BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
-BuildRequires: cuda-nvml-devel-11-4
+BuildRequires: cuda-nvml-devel-11-7
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -356,6 +361,9 @@ notifies slurm about failed nodes.
 %setup -n %{slurm_source_dir}
 
 %build
+
+export CFLAGS="$CFLAGS -L/usr/local/cuda-11.7/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-11.7/targets/x86_64-linux/include/"
+
 %configure \
 	%{?_without_debug:--disable-debug} \
 	%{?_with_pam_dir} \
@@ -713,6 +721,10 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Tue Aug 30 2022 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.3-1fasrc01
+- Rebase onto 22.05.3
+- Activate REST API
+
 * Tue Jul 5 2022 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.2-1fasrc01
 - Rebase onto 22.05.2
 
