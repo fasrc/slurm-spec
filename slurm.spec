@@ -38,6 +38,8 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --with nvml		%_with_nvml path	require nvml support
 #
 
+%define _with_slurmrestd 1
+
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
 %bcond_with cray_network
@@ -370,6 +372,7 @@ notifies slurm about failed nodes.
 	%{?_with_freeipmi} \
 	%{?_with_hdf5} \
 	%{?_with_shared_libslurm} \
+        %{!?_with_slurmrestd:--disable-slurmrestd} \
 	%{?_without_x11:--disable-x11} \
 	%{?_with_ucx} \
 	%{?_with_nvml} \
