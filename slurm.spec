@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	22.05.7
+Version:	22.05.9
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -142,7 +142,7 @@ BuildRequires: mysql-devel
 BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
-BuildRequires: cuda-nvml-devel-11-7
+BuildRequires: cuda-nvml-devel-12-1
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -362,7 +362,7 @@ notifies slurm about failed nodes.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda-11.7/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-11.7/targets/x86_64-linux/include/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-12.1/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.1/targets/x86_64-linux/include/"
 
 %configure \
 	%{?_without_debug:--disable-debug} \
@@ -721,6 +721,8 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Wed Jun 14 2023 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.9-1fasrc01
+
 * Wed Jan 4 2023 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.7-1fasrc01
 - Rebase 22.05.7
 
