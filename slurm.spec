@@ -144,6 +144,7 @@ BuildRequires: mysql-devel
 BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
+BuildRequires: librdkafka-devel
 BuildRequires: cuda-nvml-devel-12-1
 
 %if %{with lua}
