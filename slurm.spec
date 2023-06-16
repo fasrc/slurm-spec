@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	22.05.9
+Version:	23.02.3
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -36,6 +36,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 # --with ucx		%_with_ucx path		require ucx support
 # --with pmix		%_with_pmix path	require pmix support
 # --with nvml		%_with_nvml path	require nvml support
+# --with jwt		%_with_jwt 1		require jwt support
 #
 
 %define _with_slurmrestd 1
@@ -58,6 +59,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with numa
 %bcond_with pmix
 %bcond_with nvml
+%bcond_with jwt
 
 # Use debug by default on all systems
 %bcond_without debug
@@ -168,6 +170,11 @@ BuildRequires: pmix
 %if %{with ucx} && "%{_with_ucx}" == "--with-ucx"
 BuildRequires: ucx-devel
 %global ucx_version %(rpm -q ucx-devel --qf "%{RPMTAG_VERSION}")
+%endif
+
+%if %{with jwt}
+BuildRequires: libjwt-devel >= 1.10.0
+Requires: libjwt >= 1.10.0
 %endif
 
 #  Allow override of sysconfdir via _slurm_sysconfdir.
@@ -379,6 +386,7 @@ export CFLAGS="$CFLAGS -L/usr/local/cuda-12.1/targets/x86_64-linux/lib/stubs/ -I
 	%{!?_with_slurmrestd:--disable-slurmrestd} \
 	%{?_without_x11:--disable-x11} \
 	%{?_with_ucx} \
+	%{?_with_jwt} \
 	%{?_with_nvml} \
 	%{?_with_cflags}
 
@@ -721,7 +729,11 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Fri Jun 16 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.3-1fasrc01
+- Rebase onto 23.02.3
+
 * Wed Jun 14 2023 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.9-1fasrc01
+- Rebase onto 22.05.9
 
 * Wed Jan 4 2023 Paul Edmon <pedmon@cfa.harvard.edu> 22.05.7-1fasrc01
 - Rebase 22.05.7
