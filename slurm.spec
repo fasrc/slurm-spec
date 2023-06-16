@@ -144,6 +144,7 @@ BuildRequires: mysql-devel
 BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
+BuildRequires: librdkafka-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
