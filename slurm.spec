@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	23.02.3
+Version:	23.02.4
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -145,7 +145,7 @@ BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
-BuildRequires: cuda-nvml-devel-12-1
+BuildRequires: cuda-nvml-devel-12-2
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -370,7 +370,7 @@ notifies slurm about failed nodes.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda-12.1/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.1/targets/x86_64-linux/include/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-12.2/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.2/targets/x86_64-linux/include/"
 
 %configure \
 	%{?_without_debug:--disable-debug} \
@@ -730,6 +730,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Mon Aug 21 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.4-1fasrc01
+- Rebase onto 23.02.4
+
 * Fri Jun 16 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.3-1fasrc01
 - Rebase onto 23.02.3
 
