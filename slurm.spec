@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	23.02.5
+Version:	23.02.6
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -730,6 +730,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Oct 12 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.6-1fasrc01
+- Rebase onto 23.02.6
+
 * Tue Sep 9 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.5-1fasrc01
 - Rebase onto 23.02.5
 
