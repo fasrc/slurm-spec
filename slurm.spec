@@ -42,7 +42,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 #
 
 %define _with_slurmrestd 1
-%define _with_pmix "/usr/lib64"
+%define _with_pmix --with-pmix
 
 #  Options that are off by default (enable with --with <opt>)
 %bcond_with cray
