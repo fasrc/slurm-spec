@@ -792,7 +792,7 @@ rm -rf %{buildroot}
 * Thu Oct 12 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.6-1fasrc01
 - Rebase onto 23.02.6
 
-* Tue Sep 9 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.5-1fasrc01
+* Tue Sep 19 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.5-1fasrc01
 - Rebase onto 23.02.5
 
 * Mon Aug 21 2023 Paul Edmon <pedmon@cfa.harvard.edu> 23.02.4-1fasrc01
