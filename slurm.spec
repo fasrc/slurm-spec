@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	23.11.4
+Version:	23.11.8
 %define rel	1
 Release:	%{rel}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
@@ -168,7 +168,7 @@ BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
-BuildRequires: cuda-nvml-devel-12-2
+BuildRequires: cuda-nvml-devel-12-4
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
@@ -786,6 +786,9 @@ rm -rf %{buildroot}
 #############################################################################
 
 %changelog
+* Thu Jun 20 2024 Paul Edmon <pedmon@cfa.harvard.edu> 23.11.8-1fasrc01
+- Rebase onto 23.11.8
+
 * Fri Feb 23 2024 Paul Edmon <pedmon@cfa.harvard.edu> 23.11.4-1fasrc01
 - Rebase onto 23.11.4
 
