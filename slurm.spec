@@ -155,6 +155,7 @@ BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
+BuildRequires: s2n-tls-devel
 
 %if %{with lua}
 BuildRequires: pkgconfig(lua) >= 5.1.0
