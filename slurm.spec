@@ -4,7 +4,7 @@ Version:	24.11.1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc01%{?dist}
+Release:	%{rel}%{?extraver}fasrc02%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -788,6 +788,9 @@ fi
 #############################################################################
 
 %changelog
+* Wed Feb 12 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.1-1fasrc02
+- Patching Bug 21997: https://support.schedmd.com/show_bug.cgi?id=21997
+
 * Fri Jan 24 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.1-1fasrc01
 - Rebase onto 24.11.1
 
