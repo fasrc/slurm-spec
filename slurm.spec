@@ -429,7 +429,6 @@ Provides a REST interface to Slurm.
 %prep
 # when the rel number is one, the tarball filename does not include it
 %setup -n %{slurm_source_dir}
-%patch0 -p1
 %global _default_patch_fuzz 2
 %autopatch -p1
 
