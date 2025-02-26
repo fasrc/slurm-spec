@@ -1,10 +1,10 @@
 Name:		slurm
-Version:	24.11.1
+Version:	24.11.2
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc03%{?dist}
+Release:	%{rel}%{?extraver}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -19,10 +19,6 @@ URL:		https://slurm.schedmd.com/
 %endif
 
 Source:		%{slurm_source_dir}.tar.bz2
-Patch0: 0001-Fix-segfault-when-submitting-test-only-jobs-that-can.patch
-Patch1: 0001-Refactor-_get_part_list-to-set-part_ptr_list-and-par.patch
-Patch2: 0001-Refactor-code-to-one-call.patch
-Patch3: 0001-Fix-multi-partition-running-job-getting-wrong-partit.patch
 %{lua: local patchnum=0
   for pfile in string.gmatch(rpm.expand("%{?patch}"), "%S+") do
     print('Patch'..patchnum..':\t'..pfile..'\n')
@@ -432,10 +428,8 @@ Provides a REST interface to Slurm.
 %prep
 # when the rel number is one, the tarball filename does not include it
 %setup -n %{slurm_source_dir}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%global _default_patch_fuzz 2
+%autopatch -p1
 
 %build
 %configure \
@@ -794,7 +788,11 @@ fi
 #############################################################################
 
 %changelog
-* Fri Feb 14 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.1-1farc03
+* Wed Feb 26 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.2-1fasrc01
+- Rebase onto 24.11.2
+- Dropping patches for Bug 21997 and 22076 as they are fixed in 24.11.2
+
+* Fri Feb 14 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.1-1fasrc03
 - Patching Bug 22076: https://support.schedmd.com/show_bug.cgi?id=22076
 
 * Wed Feb 12 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.1-1fasrc02
