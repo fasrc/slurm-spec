@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	24.11.2
+Version:	24.11.3
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -788,6 +788,9 @@ fi
 #############################################################################
 
 %changelog
+* Tue Apr 1 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.3-1fasrc01
+- Rebase onto 24.11.3
+
 * Wed Feb 26 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.2-1fasrc01
 - Rebase onto 24.11.2
 - Dropping patches for Bug 21997 and 22076 as they are fixed in 24.11.2
