@@ -4,7 +4,7 @@ Version:	24.11.3
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc01%{?dist}
+Release:	%{rel}%{?extraver}fasrc02%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -173,6 +173,7 @@ BuildRequires: glib2-devel
 BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
 BuildRequires: s2n-tls-devel
+BuildRequires: libjwt-devel
 
 %if %{defined suse_version}
 BuildRequires: perl
@@ -788,6 +789,9 @@ fi
 #############################################################################
 
 %changelog
+* Thu Apr 24 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.3-1fasrc02
+- Turning on libjwt
+
 * Tue Apr 1 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.3-1fasrc01
 - Rebase onto 24.11.3
 
