@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	24.11.3
+Version:	24.11.4
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -173,6 +173,7 @@ BuildRequires: glib2-devel
 BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
 BuildRequires: s2n-tls-devel
+BuildRequires: libjwt-devel
 BuildRequires: cuda-nvml-devel-12-4
 
 %if %{defined suse_version}
@@ -792,6 +793,9 @@ fi
 #############################################################################
 
 %changelog
+* Wed Apr 30 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.4-1fasrc01
+- Rebase onto 24.11.4
+
 * Tue Apr 1 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.3-1fasrc01
 - Rebase onto 24.11.3
 
