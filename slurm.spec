@@ -1,10 +1,10 @@
 Name:		slurm
-Version:	24.11.3
+Version:	24.11.4
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc02%{?dist}
+Release:	%{rel}%{?extraver}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -789,6 +789,9 @@ fi
 #############################################################################
 
 %changelog
+* Wed Apr 30 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.4-1fasrc01
+- Rebase onto 24.11.4
+
 * Thu Apr 24 2025 Paul Edmon <pedmon@cfa.harvard.edu> 24.11.3-1fasrc02
 - Turning on libjwt
 
