@@ -174,7 +174,7 @@ BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
 BuildRequires: s2n-tls-devel
 BuildRequires: libjwt-devel
-BuildRequires: cuda-nvml-devel-12-4
+BuildRequires: cuda-nvml-devel-12-9
 
 %if %{defined suse_version}
 BuildRequires: perl
@@ -435,7 +435,7 @@ Provides a REST interface to Slurm.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda-12.4/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.4/targets/x86_64-linux/include/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-12.9/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.9/targets/x86_64-linux/include/"
 
 %configure \
 	--with-systemdsystemunitdir=%{_unitdir} \
