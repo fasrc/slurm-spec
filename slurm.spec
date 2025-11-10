@@ -4,7 +4,7 @@ Version:	25.05.4
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc02%{?dist}
+Release:	%{rel}%{?extraver}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -803,9 +803,6 @@ fi
 #############################################################################
 
 %changelog
-* Mon Nov 10 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.05.4-1fasrc02
-- Fixing mysql-devel issues.
-
 * Mon Oct 27 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.05.4-1fasrc01
 - Rebase onto 25.05.4
 
