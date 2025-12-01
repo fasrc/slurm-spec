@@ -1,10 +1,10 @@
 Name:		slurm
-Version:	25.05.4
+Version:	25.05.5
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
 %endif
-Release:	%{rel}%{?extraver}fasrc02%{?dist}
+Release:	%{rel}%{?extraver}fasrc01%{?dist}
 Summary:	Slurm Workload Manager
 
 Group:		System Environment/Base
@@ -803,6 +803,9 @@ fi
 #############################################################################
 
 %changelog
+* Mon Dec 1 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.05.5-1fasrc01
+- Rebase onto 25.05.5
+
 * Mon Nov 10 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.05.4-1fasrc02
 - Rebuilding against newer mysql-devel
 
