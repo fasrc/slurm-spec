@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	25.05.5
+Version:	25.11.1
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -29,6 +29,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 # build options		.rpmmacros options	change to default action
 # ====================  ====================	========================
 # --prefix		%_prefix path		install path for commands, libraries, etc.
+# --with cgroupv2	%_with_cgroupv2 1	require cgroup v2 support
 # --with cray_shasta	%_with_cray_shasta 1	build for a Cray Shasta system
 # --with slurmrestd	%_with_slurmrestd 1	build slurmrestd
 # --with yaml		%_with_yaml 1		build with yaml serializer
@@ -53,6 +54,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %define _with_pmix --with-pmix
 
 #  Options that are off by default (enable with --with <opt>)
+%bcond_with cgroupv2
 %bcond_with cray_shasta
 %bcond_with slurmrestd
 %bcond_with multiple_slurmd
@@ -98,6 +100,18 @@ BuildRequires: pkg-config
 BuildRequires:  pkgconf
 %else
 BuildRequires:  pkgconfig
+%endif
+%endif
+
+%if %{with cgroupv2}
+Requires: libbpf
+BuildRequires: kernel-headers
+%if %{defined suse_version}
+Requires: dbus-1
+BuildRequires: dbus-1-devel
+%else
+Requires: dbus
+BuildRequires: dbus-devel
 %endif
 %endif
 
@@ -209,9 +223,9 @@ BuildRequires: ucx-devel
 
 %if %{with libcurl}
 %if %{defined suse_version}
-Requires: libcurl
-%else
 Requires: libcurl4
+%else
+Requires: libcurl
 %endif
 BuildRequires: libcurl-devel
 %endif
@@ -441,6 +455,7 @@ Provides a REST interface to Slurm.
 	--with-systemdsystemunitdir=%{_unitdir} \
 	--enable-pkgconfig \
 	%{?_without_debug:--disable-debug} \
+	%{?_with_cgroupv2:--enable-cgroupv2} \
 	%{?_with_pam_dir} \
 	%{?_with_mysql_config} \
 	%{?_with_multiple_slurmd:--enable-multiple-slurmd} \
@@ -457,7 +472,6 @@ Provides a REST interface to Slurm.
 	%{?_with_jwt} \
 	%{?_with_yaml} \
 	%{?_with_nvml} \
-	%{?_with_freeipmi} \
 	%{!?with_munge:--without-munge} \
 	%{?_with_cflags}
 
@@ -803,6 +817,9 @@ fi
 #############################################################################
 
 %changelog
+* Thu Dec 18 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.11.1-1fasrc01
+- Rebase onto 25.11.1
+
 * Mon Dec 1 2025 Paul Edmon <pedmon@cfa.harvard.edu> 25.05.5-1fasrc01
 - Rebase onto 25.05.5
 
