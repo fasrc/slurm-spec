@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	25.11.5
+Version:	26.05.2
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -60,6 +60,7 @@ Source:		%{slurm_source_dir}.tar.bz2
 %bcond_with multiple_slurmd
 %bcond_with pmix
 %bcond_with ucx
+%bcond_with selinux
 
 # These options are only here to force there to be these on the build.
 # If they are not set they will still be compiled if the packages exist.
@@ -106,17 +107,11 @@ BuildRequires:  pkgconfig
 %if %{with cgroupv2}
 Requires: libbpf
 BuildRequires: kernel-headers
-%if %{defined suse_version}
-Requires: dbus-1
-BuildRequires: dbus-1-devel
-%else
-Requires: dbus
-BuildRequires: dbus-devel
-%endif
+BuildRequires: pkgconfig(dbus-1)
 %endif
 
 %if %{with munge}
-Requires: munge
+Recommends: munge
 BuildRequires: munge-devel munge-libs
 %endif
 
@@ -131,7 +126,7 @@ Obsoletes: slurm-munge <= %{version}
 Obsoletes: slurm-plugins <= %{version}
 
 # fake systemd support when building rpms on other platforms
-%{!?_unitdir: %global _unitdir /lib/systemd/systemd}
+%{!?_unitdir: %global _unitdir /lib/systemd/system}
 
 %define use_mysql_devel %(perl -e '`rpm -q mysql-devel`; print !$?;')
 # Default for OpenSUSE/SLES builds
@@ -201,39 +196,32 @@ BuildRequires: pkgconfig(lua) >= 5.1.0
 %endif
 
 %if %{with hwloc} && "%{_with_hwloc}" == "--with-hwloc"
-BuildRequires: hwloc-devel
+BuildRequires: pkgconfig(hwloc)
 %endif
 
 %if %{with numa}
-%if %{defined suse_version}
-BuildRequires: libnuma-devel
-%else
-BuildRequires: numactl-devel
-%endif
+BuildRequires: pkgconfig(numa)
 %endif
 
 %if %{with pmix} && "%{_with_pmix}" == "--with-pmix"
-BuildRequires: pmix
+BuildRequires: pkgconfig(pmix)
 %global pmix_version %(rpm -q pmix --qf "%{RPMTAG_VERSION}")
 %endif
 
 %if %{with ucx} && "%{_with_ucx}" == "--with-ucx"
-BuildRequires: ucx-devel
+BuildRequires: pkgconfig(ucx)
 %global ucx_version %(rpm -q ucx-devel --qf "%{RPMTAG_VERSION}")
 %endif
 
 %if %{with libcurl}
-%if %{defined suse_version}
-Requires: libcurl4
-%else
-Requires: libcurl
-%endif
-BuildRequires: libcurl-devel
+BuildRequires: pkgconfig(libcurl)
 %endif
 
 %if %{with jwt}
 BuildRequires: libjwt-devel >= 1.10.0
+BuildRequires: libjwt-devel < 3
 Requires: libjwt >= 1.10.0
+Requires: libjwt < 3
 %endif
 
 %if %{with yaml}
@@ -247,8 +235,7 @@ BuildRequires: freeipmi-devel
 %endif
 
 %if %{with selinux}
-Requires: libselinux
-BuildRequires: libselinux-devel
+BuildRequires: pkgconfig(libselinux)
 %endif
 
 #  Allow override of sysconfdir via _slurm_sysconfdir.
@@ -433,12 +420,12 @@ according to the Slurm
 Summary: Slurm REST API translator
 Group: System Environment/Base
 Requires: %{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} == 7
 BuildRequires: http-parser-devel
-%if %{defined suse_version}
-BuildRequires: libjson-c-devel
 %else
-BuildRequires: json-c-devel
+BuildRequires: (llhttp-devel or http-parser-devel)
 %endif
+BuildRequires: pkgconfig(json-c)
 %description slurmrestd
 Provides a REST interface to Slurm.
 %endif
@@ -489,12 +476,7 @@ export QA_RPATHS=0x5
 
 # Strip out some dependencies
 
-cat > find-requires.sh <<'EOF'
-exec %{__find_requires} "$@" | grep -E -v '^libpmix.so|libevent|libnvidia-ml'
-EOF
-chmod +x find-requires.sh
-%global _use_internal_dependency_generator 0
-%global __find_requires %{_builddir}/%{buildsubdir}/find-requires.sh
+%global __requires_exclude ^libpmix.so|libevent|libnvidia-ml
 
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
@@ -554,6 +536,7 @@ rm -f %{buildroot}/%{_datadir}/bash-completion/completions/srun
 rm -f %{buildroot}/%{_datadir}/bash-completion/completions/sshare
 rm -f %{buildroot}/%{_datadir}/bash-completion/completions/sstat
 rm -f %{buildroot}/%{_datadir}/bash-completion/completions/strigger
+rm -f %{buildroot}/%{_datadir}/bash-completion/completions/swait
 
 # Build man pages that are generated directly by the tools
 rm -f %{buildroot}/%{_mandir}/man1/sjobexitmod.1
@@ -748,6 +731,7 @@ ln -sf %{_bashcompdir}/bash-completion/completions/{slurm_completion.sh,srun}
 ln -sf %{_bashcompdir}/bash-completion/completions/{slurm_completion.sh,sshare}
 ln -sf %{_bashcompdir}/bash-completion/completions/{slurm_completion.sh,sstat}
 ln -sf %{_bashcompdir}/bash-completion/completions/{slurm_completion.sh,strigger}
+ln -sf %{_bashcompdir}/bash-completion/completions/{slurm_completion.sh,swait}
 
 %preun
 
@@ -773,6 +757,7 @@ if [ $1 -eq 0 ]; then
 	rm -f %{_bashcompdir}/bash-completion/completions/sshare
 	rm -f %{_bashcompdir}/bash-completion/completions/sstat
 	rm -f %{_bashcompdir}/bash-completion/completions/strigger
+	rm -f %{_bashcompdir}/bash-completion/completions/swait
 fi
 
 %post sackd
@@ -821,6 +806,9 @@ fi
 #############################################################################
 
 %changelog
+* Tue Jul 28 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.2-1fasrc01
+- Rebase onto 26.05.2
+
 * Mon Apr 27 2026 Paul Edmon <pedmon@cfa.harvard.edu> 25.11.5-1fasrc01
 - Rebase onto 25.11.5
 
