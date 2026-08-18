@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	26.05.2
+Version:	26.05.3
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -806,6 +806,9 @@ fi
 #############################################################################
 
 %changelog
+* Tue Aug 18 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.3-1fasrc01
+- Rebase onto 26.05.3
+
 * Tue Jul 28 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.2-1fasrc01
 - Rebase onto 26.05.2
 
