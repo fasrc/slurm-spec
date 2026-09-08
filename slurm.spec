@@ -1,5 +1,5 @@
 Name:		slurm
-Version:	26.05.3
+Version:	26.05.4
 %define rel	1
 %if %{defined patch} && %{undefined extraver}
 %define extraver .patched
@@ -183,7 +183,7 @@ BuildRequires: dbus-devel
 BuildRequires: librdkafka-devel
 BuildRequires: s2n-tls-devel
 BuildRequires: libjwt-devel
-BuildRequires: cuda-nvml-devel-12-9
+BuildRequires: cuda-nvml-devel-13-3
 
 %if %{defined suse_version}
 BuildRequires: perl
@@ -440,7 +440,7 @@ Provides a REST interface to Slurm.
 
 %build
 
-export CFLAGS="$CFLAGS -L/usr/local/cuda-12.9/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-12.9/targets/x86_64-linux/include/"
+export CFLAGS="$CFLAGS -L/usr/local/cuda-13.3/targets/x86_64-linux/lib/stubs/ -I/usr/local/cuda-13.3/targets/x86_64-linux/include/"
 
 %configure \
 	--with-systemdsystemunitdir=%{_unitdir} \
@@ -806,6 +806,10 @@ fi
 #############################################################################
 
 %changelog
+* Tue Sep 8 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.4-1fasrc01
+- Rebase onto 26.05.4
+- Changing to Cuda 13.3
+
 * Tue Aug 18 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.3-1fasrc01
 - Rebase onto 26.05.3
 
