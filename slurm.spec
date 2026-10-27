@@ -806,7 +806,7 @@ fi
 #############################################################################
 
 %changelog
-* Tue Oct 27th 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.5-1fasrc01
+* Tue Oct 27 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.5-1fasrc01
 - Rebase onto 26.05.5
 
 * Tue Sep 8 2026 Paul Edmon <pedmon@cfa.harvard.edu> 26.05.4-1fasrc01
